@@ -3,16 +3,32 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
+import logging
+import uvicorn
 from .util.database import db_manager
+
+# Configure colorized logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+
+# Get logger for this module
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application lifecycle events"""
     # Startup
+    logger.info("Starting up Weather App...")
     await db_manager.create_pool()
+    logger.info("Database connection pool created")
     yield
     # Shutdown
+    logger.info("Shutting down Weather App...")
     await db_manager.close_pool()
+    logger.info("Database connection pool closed")
 
 # Create FastAPI instance
 app = FastAPI(
@@ -30,6 +46,7 @@ async def home(request: Request):
     """
     Home page endpoint that returns HTML content from template
     """
+    logger.info(f"Home page accessed from {request.client.host}")
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/health")
@@ -37,6 +54,7 @@ async def health_check():
     """
     Comprehensive health check endpoint including database connectivity
     """
+    logger.info("Health check requested")
     health_status = {
         "status": "healthy",
         "app": "healthy",
@@ -56,15 +74,23 @@ async def health_check():
                 "status": "healthy",
                 "version": version
             }
+        logger.info("Database health check passed")
     except Exception as e:
         health_status["database"] = {
             "status": "error",
             "error": str(e)
         }
         health_status["status"] = "degraded"
+        logger.error(f"Database health check failed: {e}")
     
     return health_status
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(
+        app, 
+        host="0.0.0.0", 
+        port=8080,
+        log_level="info",
+        use_colors=True,
+        access_log=True
+    )
