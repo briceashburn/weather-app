@@ -4,3 +4,4 @@ jinja2
 python-multipart
 asyncpg
 python-dotenv
+pydantic
