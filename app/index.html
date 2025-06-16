@@ -4,83 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #1e293b;
+            line-height: 1.6;
         }
+
         .container {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 500px;
+            max-width: 480px;
             width: 90%;
+            border: 1px solid #e2e8f0;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
+
         .weather-icon {
             font-size: 4rem;
-            margin: 1rem 0;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #64748b;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+        }
+
         .api-links {
-            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
+
         .api-link {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            color: #334155;
             text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            margin: 0.5rem;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
         }
+
         .api-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: #e2e8f0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
         }
+
+        .api-link.primary {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .api-link.primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
         .footer {
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            opacity: 0.7;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .tech-stack {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="weather-icon">🌤️</div>
+        <div class="weather-icon">⛅</div>
         <h1>Weather App</h1>
-        <p>Welcome to your FastAPI Weather Application!</p>
-        <p>A modern, simple weather service built with FastAPI.</p>
+        <p class="subtitle">Modern weather service built with FastAPI</p>
         
         <div class="api-links">
-            <a href="/health" class="api-link">Health Check</a>
-            <a href="/docs" class="api-link">API Documentation</a>
+            <a href="/health" class="api-link">🏥 Health Check</a>
+            <a href="/docs" class="api-link primary">📚 API Documentation</a>
         </div>
         
         <div class="footer">
-            <p>Powered by FastAPI • Built with ❤️</p>
+            <div class="tech-stack">
+                Powered by <strong>FastAPI</strong> • Built with ❤️
+            </div>
         </div>
     </div>
 </body>

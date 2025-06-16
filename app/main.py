@@ -44,21 +44,6 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# Configure JSON response formatting for pretty printing
-# Override default JSON response to enable pretty printing
-class PrettyJSONResponse(JSONResponse):
-    def render(self, content) -> bytes:
-        return json.dumps(
-            jsonable_encoder(content),
-            ensure_ascii=False,
-            allow_nan=False,
-            indent=2,
-            separators=(",", ": "),
-        ).encode("utf-8")
-
-# Set as default response class
-app.response_class = PrettyJSONResponse
-
 # Setup middleware
 setup_middleware(app)
 
