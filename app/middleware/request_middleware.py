@@ -108,8 +108,9 @@ class RequestMiddleware(BaseHTTPMiddleware):
             # Decode the body
             body_str = response_body.decode('utf-8')
             
-            # Validate it's proper JSON
-            json.loads(body_str)
+            # Parse and pretty-format the JSON
+            response_data = json.loads(body_str)
+            pretty_json = json.dumps(response_data, indent=2, ensure_ascii=False)
             
             # Create a new response with the same body
             async def new_body_iterator():
@@ -118,10 +119,10 @@ class RequestMiddleware(BaseHTTPMiddleware):
             response.body_iterator = new_body_iterator()
             
             # Format for logging (truncate if too long)
-            if len(body_str) > 300:
-                return f" | Response: {body_str[:300]}..."
+            if len(pretty_json) > 500:
+                return f" | Response:\n{pretty_json[:500]}..."
             else:
-                return f" | Response: {body_str}"
+                return f" | Response:\n{pretty_json}"
                 
         except Exception as e:
             # If we can't capture the body, create a new empty iterator
