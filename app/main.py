@@ -1,18 +1,23 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 # Create FastAPI instance
 app = FastAPI(
     title="Weather App API",
-    description="A simple FastAPI Hello World application",
+    description="A simple weather application with FastAPI",
     version="1.0.0"
 )
 
-@app.get("/")
-async def read_root():
+# Setup templates
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
     """
-    Root endpoint that returns a hello world message
+    Home page endpoint that returns HTML content from template
     """
-    return {"message": "Hello World from FastAPI!"}
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/health")
 async def health_check():
