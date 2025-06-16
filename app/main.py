@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from .database import db_manager
+from .util.database import db_manager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,7 +23,7 @@ app = FastAPI(
 )
 
 # Setup templates
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
