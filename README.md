@@ -1,12 +1,14 @@
 # FastAPI Weather App
 
-A modern FastAPI application starter template for a weather app with database connectivity, middleware, and a beautiful web interface.
+A modern FastAPI application starter template for a weather app with database connectivity, middleware, pretty-printed JSON responses, and a beautiful web interface.
 
 ## Features
 
 - HTML home page with modern weather-themed UI
+- **Pretty-printed JSON responses by default** - All API responses are formatted with proper indentation for better readability
 - Comprehensive health check with database connectivity testing
 - Database connection pooling with PostgreSQL
+- **Enhanced request middleware with data response logging** - Logs response data for API endpoints
 - Request timing and logging middleware
 - CORS support for frontend development
 - Auto-generated interactive API documentation
@@ -52,11 +54,13 @@ Once the server is running, you can access:
 
 - **Health check**: http://localhost:8080/health
   - Returns: Comprehensive health status including database connectivity
+  - **Note**: All JSON responses are now pretty-printed with proper indentation
   - Example response:
     ```json
     {
-      "success": true,
+      "code": 200,
       "message": "All systems operational",
+      "timestamp": "2025-06-16T10:30:00.123456Z",
       "data": {
         "app": "healthy",
         "database": {
@@ -96,15 +100,30 @@ DB_SCHEMA=weatherapp
 The application includes several middleware components:
 
 - **Request Timing**: Adds `X-Process-Time` headers to all responses
-- **Request Logging**: Logs all incoming requests and responses
+- **Enhanced Request Logging**:
+  - Logs all incoming requests and responses with comprehensive details
+  - **NEW**: Includes response data logging for API endpoints (JSON responses)
+  - Automatically truncates large responses to prevent log bloat
+  - Excludes HTML responses from data logging to keep logs clean
 - **CORS**: Configured for localhost:3000 development
+
+### JSON Response Formatting
+
+**NEW**: All API responses are automatically formatted with pretty printing:
+
+- Proper indentation (2 spaces)
+- Clean separators for better readability
+- UTF-8 encoding support
+- Improved developer experience when testing APIs
 
 ### Project Structure
 
 This is a starter template that includes:
 
 - Database connectivity with PostgreSQL
-- Modern middleware system
+- Modern middleware system with enhanced logging capabilities
+- **Pretty-printed JSON responses for better API development**
+- **Response data logging in middleware for debugging and monitoring**
 - Beautiful frontend interface
 - Comprehensive health monitoring
 - Ready for weather API integration

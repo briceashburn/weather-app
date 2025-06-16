@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.encoders import jsonable_encoder
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 import logging
 import uvicorn
+import json
 from .util.database import db_manager
 from .models.api_response import ApiResponse
 from .middleware.config import setup_middleware
@@ -25,7 +27,6 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up Weather App...")
     await db_manager.create_pool()
-    logger.info("Database connection pool created")
     yield
     # Shutdown
     logger.info("Shutting down Weather App...")
@@ -37,8 +38,26 @@ app = FastAPI(
     title="Weather App API",
     description="A simple weather application with FastAPI",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    openapi_url="/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
+
+# Configure JSON response formatting for pretty printing
+# Override default JSON response to enable pretty printing
+class PrettyJSONResponse(JSONResponse):
+    def render(self, content) -> bytes:
+        return json.dumps(
+            jsonable_encoder(content),
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=2,
+            separators=(",", ": "),
+        ).encode("utf-8")
+
+# Set as default response class
+app.response_class = PrettyJSONResponse
 
 # Setup middleware
 setup_middleware(app)
@@ -51,7 +70,6 @@ async def home(request: Request):
     """
     Home page endpoint that returns HTML content from template
     """
-    logger.info(f"Home page accessed from {request.client.host}")
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/health", response_model=ApiResponse)
@@ -59,7 +77,6 @@ async def health_check():
     """
     Comprehensive health check endpoint including database connectivity
     """
-    logger.info("Health check requested")
     health_data = {
         "app": "healthy",
         "database": None
@@ -74,7 +91,6 @@ async def health_check():
                 "status": "healthy",
                 "version": version
             }
-        logger.info("Database health check passed")
         return ApiResponse.success(
             data=health_data,
             message="All systems operational"

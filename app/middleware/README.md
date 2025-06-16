@@ -1,38 +1,36 @@
 # Weather App Middleware
 
-Simple and focused middleware for the Weather App FastAPI application providing request timing and logging capabilities.
+Efficient and comprehensive middleware for the Weather App FastAPI application providing combined request logging and timing capabilities.
 
 ## Overview
 
-This middleware system is designed to be lightweight and provide essential monitoring capabilities for your FastAPI application. It focuses on two key areas:
+This middleware system is designed to be lightweight and provide essential monitoring capabilities for your FastAPI application. It combines performance monitoring and request logging into a single, efficient middleware that reduces overhead while providing comprehensive request tracking.
 
-- **Performance Monitoring**: Track request processing times
-- **Request Logging**: Monitor incoming requests and responses
+- **Combined Performance & Logging**: Single middleware handles both timing and logging
+- **Comprehensive Request Tracking**: Monitor all requests with detailed information
+- **Error Handling**: Track errors with timing information
 
 ## Available Middleware
 
-### 1. Request Timing Middleware (`timing.py`)
+### 1. Request Middleware (`request_middleware.py`)
 
-- **Purpose**: Measures and reports request processing times for all calls
+- **Purpose**: Combined middleware for comprehensive request/response logging with performance timing
 - **Features**:
   - High-precision timing using `time.perf_counter()`
-  - Logs timing information for every request
+  - Comprehensive request logging with client information
+  - Response status code tracking
+  - Error logging with timing information
   - Automatic timing header injection
+  - Single middleware reduces processing overhead
 - **Headers Added**:
   - `X-Process-Time`: Request processing time in seconds (6 decimal precision)
-- **Use Case**: Performance monitoring, identifying slow endpoints
+- **Log Format**:
+  - Request: `REQUEST: {method} {path} from {client_ip}`
+  - Response: `RESPONSE: {method} {path} Status: {status} Time: {time}s Client: {client_ip}`
+  - Error: `ERROR: {method} {path} Error: {error} Time: {time}s Client: {client_ip}`
+- **Use Case**: Complete request monitoring, performance analysis, debugging, audit trails
 
-### 2. Request Logging Middleware (`logging.py`)
-
-- **Purpose**: Simple request and response logging for monitoring and debugging
-- **Features**:
-  - Logs all incoming requests with client IP address
-  - Logs response status codes
-  - Error tracking and exception logging
-  - Clean, readable log format
-- **Use Case**: Request monitoring, debugging, audit trails
-
-### 3. CORS Middleware (`cors.py`)
+### 2. CORS Middleware (`cors.py`)
 
 - **Purpose**: Handles Cross-Origin Resource Sharing for frontend integration
 - **Features**:
@@ -56,9 +54,8 @@ No additional configuration is required - the middleware works out of the box.
 
 The middleware executes in the following order (important for proper functionality):
 
-1. **Request Timing** - Starts timing measurement
-2. **Request Logging** - Logs incoming request details
-3. **CORS** - Handles cross-origin requests (should be last)
+1. **Request Middleware** - Combined logging and timing (handles both request logging and response timing)
+2. **CORS** - Handles cross-origin requests (should be last)
 
 ## Usage
 
@@ -90,17 +87,12 @@ When making requests to your application, you'll see logs like:
 ```
 2025-06-16 10:30:15 - app.main - INFO - Starting up Weather App...
 2025-06-16 10:30:15 - app.main - INFO - Database connection pool created
-INFO - Request timing middleware initialized
 INFO - All middleware configured successfully
 2025-06-16 10:30:20 - app.main - INFO - Home page accessed from 127.0.0.1
-INFO - REQUEST: GET / from 127.0.0.1
-INFO - TIMING: GET / processed in 0.002341s
-INFO - RESPONSE: GET / Status: 200
+INFO:app.middleware.request_middleware:GET / | Status: 200 | Time: 0.002341s | Client: 127.0.0.1
 2025-06-16 10:30:25 - app.main - INFO - Health check requested
 2025-06-16 10:30:25 - app.main - INFO - Database health check passed
-INFO - REQUEST: GET /health from 127.0.0.1
-INFO - TIMING: GET /health processed in 0.015678s
-INFO - RESPONSE: GET /health Status: 200
+INFO:app.middleware.request_middleware:GET /health | Status: 200 | Time: 0.015678s | Client: 127.0.0.1
 ```
 
 ## Response Headers
@@ -113,20 +105,21 @@ X-Process-Time: 0.002341
 
 ## Error Handling
 
-If an error occurs during request processing, it will be logged:
+If an error occurs during request processing, it will be logged with timing information:
 
 ```
-ERROR - ERROR: GET /health Error: Database connection failed
+ERROR:app.middleware.request_middleware:ERROR: GET /health | Error: Database connection failed | Time: 0.001234s | Client: 127.0.0.1
 2025-06-16 10:30:30 - app.main - ERROR - Database health check failed: connection timeout
 ```
 
 ## Benefits
 
-- **Performance Insights**: See which endpoints are slow with precise timing
-- **Request Monitoring**: Track all incoming traffic with client IP logging
+- **Enhanced Performance Insights**: Combined timing and logging provides complete request lifecycle visibility
+- **Comprehensive Request Monitoring**: Track all incoming traffic with client IP, status, and timing in one log entry
+- **Efficient Processing**: Single middleware reduces overhead compared to separate timing and logging middleware
 - **Database Health**: Monitor PostgreSQL connectivity and performance
-- **Debugging Aid**: Detailed error logging with timestamps and context
+- **Enhanced Debugging**: Detailed error logging with timestamps, timing, and context
 - **Zero Configuration**: Works immediately after installation
-- **Lightweight**: Minimal performance overhead (~1-2ms per request)
+- **Lightweight**: Minimal performance overhead with combined processing
 - **Development Friendly**: CORS enabled for local React/frontend development
-- **Production Ready**: Structured logging with proper error handling
+- **Production Ready**: Structured logging with proper error handling and comprehensive metrics
