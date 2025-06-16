@@ -7,6 +7,7 @@ import logging
 import uvicorn
 from .util.database import db_manager
 from .models.api_response import ApiResponse
+from .middleware.config import setup_middleware
 
 # Configure colorized logging
 logging.basicConfig(
@@ -38,6 +39,9 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+# Setup middleware
+setup_middleware(app)
 
 # Setup templates
 templates = Jinja2Templates(directory="app")

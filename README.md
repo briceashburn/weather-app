@@ -1,12 +1,14 @@
-# FastAPI Hello World Weather App
+# FastAPI Weather App
 
-A simple FastAPI application that serves as a "Hello World" example for a weather app.
+A modern FastAPI application starter template for a weather app with database connectivity, middleware, and a beautiful web interface.
 
 ## Features
 
-- Root endpoint that returns a hello world message
-- Personalized greeting endpoint
-- Health check endpoint
+- HTML home page with modern weather-themed UI
+- Comprehensive health check with database connectivity testing
+- Database connection pooling with PostgreSQL
+- Request timing and logging middleware
+- CORS support for frontend development
 - Auto-generated interactive API documentation
 
 ## Installation
@@ -25,7 +27,15 @@ pip3 install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
 ```
 
-### Option 2: Running the Python file directly
+### Option 2: Using VS Code Task
+
+If you're using VS Code, you can run the preconfigured task:
+
+- Press `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux)
+- Type "Tasks: Run Task"
+- Select "Run FastAPI Server"
+
+### Option 3: Running the Python file directly
 
 ```bash
 python3 -m app.main
@@ -35,17 +45,27 @@ python3 -m app.main
 
 Once the server is running, you can access:
 
-- **Root endpoint**: http://localhost:8080/
+- **Home page**: http://localhost:8080/
 
-  - Returns: `{"message": "Hello World from FastAPI!"}`
-
-- **Personalized greeting**: http://localhost:8080/hello/{name}
-
-  - Example: http://localhost:8080/hello/Brice
-  - Returns: `{"message": "Hello Brice!"}`
+  - Returns: Beautiful HTML interface with weather app styling
+  - Features modern glassmorphism design with gradient backgrounds
 
 - **Health check**: http://localhost:8080/health
-  - Returns: `{"status": "healthy"}`
+  - Returns: Comprehensive health status including database connectivity
+  - Example response:
+    ```json
+    {
+      "success": true,
+      "message": "All systems operational",
+      "data": {
+        "app": "healthy",
+        "database": {
+          "status": "healthy",
+          "version": "PostgreSQL 14.x..."
+        }
+      }
+    }
+    ```
 
 ## Interactive API Documentation
 
@@ -57,3 +77,34 @@ FastAPI automatically generates interactive API documentation:
 ## Development
 
 The `--reload` flag enables auto-reloading during development, so the server will restart automatically when you make changes to the code.
+
+### Database Setup
+
+The application uses PostgreSQL with connection pooling. Configure your database connection using environment variables:
+
+```bash
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=weatherapp
+DB_USER=devweatherappuser
+DB_PASSWORD=your_password
+DB_SCHEMA=weatherapp
+```
+
+### Middleware Features
+
+The application includes several middleware components:
+
+- **Request Timing**: Adds `X-Process-Time` headers to all responses
+- **Request Logging**: Logs all incoming requests and responses
+- **CORS**: Configured for localhost:3000 development
+
+### Project Structure
+
+This is a starter template that includes:
+
+- Database connectivity with PostgreSQL
+- Modern middleware system
+- Beautiful frontend interface
+- Comprehensive health monitoring
+- Ready for weather API integration
