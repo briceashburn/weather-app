@@ -25,18 +25,18 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Manage application lifecycle events"""
     # Startup
-    logger.info("Starting up Weather App...")
+    logger.info("Starting up API...")
     await db_manager.create_pool()
     yield
     # Shutdown
-    logger.info("Shutting down Weather App...")
+    logger.info("Shutting down API...")
     await db_manager.close_pool()
     logger.info("Database connection pool closed")
 
 # Create FastAPI instance
 app = FastAPI(
-    title="Weather App API",
-    description="A simple weather application with FastAPI",
+    title="FastAPI Starter",
+    description="A clean FastAPI starter template with database connectivity",
     version="1.0.0",
     lifespan=lifespan,
     openapi_url="/openapi.json",

@@ -1,10 +1,10 @@
-# FastAPI Weather App
+# FastAPI Starter Template
 
-A modern FastAPI application starter template for a weather app with database connectivity, middleware, pretty-printed JSON responses, and a beautiful web interface.
+A clean, modern FastAPI starter template with database connectivity, middleware, pretty-printed JSON responses, and a beautiful web interface.
 
 ## Features
 
-- HTML home page with modern weather-themed UI
+- Clean HTML home page with modern UI
 - **Pretty-printed JSON responses by default** - All API responses are formatted with proper indentation for better readability
 - Comprehensive health check with database connectivity testing
 - Database connection pooling with PostgreSQL
@@ -49,8 +49,8 @@ Once the server is running, you can access:
 
 - **Home page**: http://localhost:8080/
 
-  - Returns: Beautiful HTML interface with weather app styling
-  - Features modern glassmorphism design with gradient backgrounds
+  - Returns: Beautiful HTML interface with modern styling
+  - Features clean, professional design with gradient backgrounds
 
 - **Health check**: http://localhost:8080/health
   - Returns: Comprehensive health status including database connectivity
@@ -89,10 +89,10 @@ The application uses PostgreSQL with connection pooling. Configure your database
 ```bash
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=weatherapp
-DB_USER=devweatherappuser
+DB_NAME=dev
+DB_USER=devuser
 DB_PASSWORD=your_password
-DB_SCHEMA=weatherapp
+DB_SCHEMA=public
 ```
 
 ### Middleware Features
@@ -118,7 +118,7 @@ The application includes several middleware components:
 
 ### Project Structure
 
-This is a starter template that includes:
+This is a clean starter template that includes:
 
 - Database connectivity with PostgreSQL
 - Modern middleware system with enhanced logging capabilities
@@ -126,4 +126,4 @@ This is a starter template that includes:
 - **Response data logging in middleware for debugging and monitoring**
 - Beautiful frontend interface
 - Comprehensive health monitoring
-- Ready for weather API integration
+- Ready for custom API integration and feature development
