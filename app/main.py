@@ -1,12 +1,9 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.encoders import jsonable_encoder
 from contextlib import asynccontextmanager
-from datetime import datetime, timezone
 import logging
 import uvicorn
-import json
 from .util.database import db_manager
 from .models.api_response import ApiResponse
 from .middleware.config import setup_middleware
