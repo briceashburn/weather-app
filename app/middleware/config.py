@@ -1,5 +1,5 @@
 """
-Middleware configuration and setup for the Weather App.
+Middleware configuration and setup for the FastAPI application.
 """
 
 import logging

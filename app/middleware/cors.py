@@ -1,5 +1,5 @@
 """
-CORS (Cross-Origin Resource Sharing) middleware configuration for the Weather App.
+CORS (Cross-Origin Resource Sharing) middleware configuration for the FastAPI application.
 """
 
 from fastapi import FastAPI

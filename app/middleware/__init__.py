@@ -1,5 +1,5 @@
 """
-Middleware package for the Weather App FastAPI application.
+Middleware package for the FastAPI application.
 """
 
 from .cors import setup_cors_middleware

@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: weather-app
+    container_name: hello-app
     env_file:
       - .env
     environment:
